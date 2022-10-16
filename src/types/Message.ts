@@ -3,4 +3,5 @@ export type Message = {
   text: string;
   fromMe?: boolean;
   timeSent: number;
+  userId?: string;
 };
