@@ -38,16 +38,19 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { useMessage } from '@/composables/useMessages';
+import { useRoomMessages } from '@/composables/useMessages';
+import { onBeforeRouteLeave } from 'vue-router';
 
 const newMessage = ref('');
-const { init, send, messages } = useMessage();
+const { init, send, messages, destroy } = useRoomMessages();
 
 const sendMessage = async () => {
   await send(newMessage.value);
 
   newMessage.value = '';
 };
+
+onBeforeRouteLeave(destroy);
 
 init();
 </script>

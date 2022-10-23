@@ -5,15 +5,17 @@ import { useRoute } from 'vue-router';
 import { useRoom } from '@/store/room';
 import { useMessages } from '@/store/messages';
 
-export const useMessage = () => {
+export const useRoomMessages = () => {
   const route = useRoute();
   const roomStore = useRoom();
   const messagesStore = useMessages();
+
   const roomId = computed(() => {
     return Array.isArray(route.params.id)
       ? route.params.id[0]
       : route.params.id;
   });
+  const messages = computed(() => messagesStore.messages);
 
   const init = () => {
     const userId = localStorage.getItem('userId');
@@ -43,11 +45,15 @@ export const useMessage = () => {
     await messagesStore.sendMessage(message);
   };
 
-  const messages = computed(() => messagesStore.messages);
+  const destroy = () => {
+    messagesStore.$dispose();
+    roomStore.destroyRoom(roomId.value);
+  };
 
   return {
     init,
     send,
+    destroy,
     messages,
   };
 };
