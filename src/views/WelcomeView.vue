@@ -1,7 +1,7 @@
 <template>
   <div class="welcome">
     <div>
-      <h2>Welcome to Secret Chat</h2>
+      <h2 class="welcome--title">Welcome to Secret Chat</h2>
       <span>
         Create a room and invite your friend. All messages will be deleted after
         both of you leave a room.
@@ -33,6 +33,12 @@ const createRoom = () => {
   &--enter-room {
     display: block;
     margin-top: 32px;
+    background-color: var(--action-blue);
+    border: 1px solid var(--action-blue);
+  }
+
+  &--title {
+    color: var(--text-color);
   }
 }
 </style>

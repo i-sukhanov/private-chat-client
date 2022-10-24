@@ -59,6 +59,7 @@ init();
 .chat {
   height: calc(100vh - 100px);
   position: relative;
+  width: 100%;
 
   &--messages {
     height: calc(100% - 140px);
@@ -112,6 +113,8 @@ init();
 
   &--send {
     font-size: 16px;
+    background-color: var(--action-blue);
+    border: 1px solid var(--action-blue);
   }
 }
 </style>

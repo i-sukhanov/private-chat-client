@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <div class="container">
+    <div class="content">
       <h1 class="header--title">
         Secret Chat
         <a-tooltip>
@@ -11,6 +11,7 @@
           <exclamation-circle-outlined :style="{ fontSize: '16px' }" />
         </a-tooltip>
       </h1>
+      <theme-switch />
     </div>
   </header>
   <div class="container">
@@ -20,24 +21,38 @@
 
 <script lang="ts" setup>
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import ThemeSwitch from './components/ThemeSwitch.vue';
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-
-.header {
-  &--title {
-    text-align: center;
-  }
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 .container {
   max-width: 760px;
   margin: 0 auto;
+  display: flex;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+
+.header {
+  &--title {
+    text-align: center;
+    color: var(--text-color);
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
 }
 </style>
