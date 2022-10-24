@@ -10,6 +10,8 @@ export const useRoomMessages = () => {
   const roomStore = useRoom();
   const messagesStore = useMessages();
 
+  let interval: ReturnType<typeof setInterval>;
+
   const roomId = computed(() => {
     return Array.isArray(route.params.id)
       ? route.params.id[0]
@@ -26,7 +28,7 @@ export const useRoomMessages = () => {
       localStorage.setItem('userId', nanoid());
     }
 
-    setInterval(() => {
+    interval = setInterval(() => {
       messagesStore.loadMessages(roomId.value);
     }, 2000);
   };
@@ -48,6 +50,7 @@ export const useRoomMessages = () => {
   const destroy = () => {
     messagesStore.$dispose();
     roomStore.destroyRoom(roomId.value);
+    clearInterval(interval);
   };
 
   return {
