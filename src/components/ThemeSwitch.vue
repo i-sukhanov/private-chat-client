@@ -9,9 +9,9 @@
       :tabindex="$i + 1"
       @click="setTheme(theme)"
     >
-      <bulb-outlined v-if="theme === 'light'" />
+      <bulb-filled v-if="theme === 'light'" />
       <setting-filled v-else-if="theme === 'system'" />
-      <bulb-filled v-else />
+      <bulb-outlined v-else />
     </button>
     <div class="theme_switch--underlay"></div>
   </div>
@@ -30,25 +30,31 @@ init();
 .theme_switch {
   display: flex;
   position: relative;
+  border: 1px solid var(--border-color);
+  background-color: var(--switcher-bg);
+  border-radius: var(--space-lg);
+  overflow: hidden;
 
   &--underlay {
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 20px;
-    height: 26px;
+    width: var(--space-lg);
+    height: var(--space-lg);
     background-color: var(--action-blue);
     z-index: 1;
     border-radius: 2px;
     transition: 100ms all;
+    border-radius: var(--space-lg);
+    box-shadow: 0 0 3px var(--action-blue);
   }
 
   &--switcher {
     background-color: transparent;
     border: none;
     position: relative;
-    width: 20px;
-    height: 26px;
+    width: var(--space-lg);
+    height: var(--space-lg);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -63,13 +69,13 @@ init();
       }
       &:nth-of-type(2) {
         & ~ .theme_switch--underlay {
-          transform: translateX(20px);
+          transform: translateX(var(--space-lg));
         }
       }
 
       &:nth-of-type(3) {
         & ~ .theme_switch--underlay {
-          transform: translateX(40px);
+          transform: translateX(calc(var(--space-lg) * 2));
         }
       }
     }
