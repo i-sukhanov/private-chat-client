@@ -4,7 +4,7 @@
       <div
         :class="{
           'chat--message_container': true,
-          'chat--message_container-right': message.fromMe,
+          'chat--message_container-right': message.author,
         }"
         v-for="message in messages"
         :key="message.id"
@@ -12,13 +12,13 @@
         <div
           :class="{
             'chat--message': true,
-            'chat--message-right': message.fromMe,
+            'chat--message-right': message.author,
           }"
           v-html="message.text"
         />
       </div>
     </div>
-    <div class="chat--bottom">
+    <form class="chat--bottom" @submit.prevent="sendMessage">
       <a-textarea
         v-model:value="newMessage"
         placeholder="Enter your message"
@@ -33,7 +33,7 @@
           <a-button class="chat--leave">Leave room</a-button>
         </router-link>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -43,10 +43,11 @@ import { useRoomMessages } from '@/composables/useMessages';
 import { onBeforeRouteLeave } from 'vue-router';
 
 const newMessage = ref('');
-const { init, send, messages, destroy } = useRoomMessages();
+const { init, send, messages, loadMessages, destroy } = useRoomMessages();
 
 const sendMessage = async () => {
   await send(newMessage.value);
+  loadMessages();
 
   newMessage.value = '';
 };
@@ -92,7 +93,7 @@ init();
     &-right {
       border-radius: 6px 6px 0px 6px;
       background-color: rgba(123, 97, 255, 0.1);
-      border-color: transparent;
+      border: 1px solid var(--border-color);
       background-color: var(--bg-color);
     }
   }

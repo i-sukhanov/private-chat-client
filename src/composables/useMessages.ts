@@ -10,6 +10,7 @@ export const useRoomMessages = () => {
   const roomStore = useRoom();
   const messagesStore = useMessages();
 
+  const userId = localStorage.getItem('userId');
   let interval: ReturnType<typeof setInterval>;
 
   const roomId = computed(() => {
@@ -17,22 +18,24 @@ export const useRoomMessages = () => {
       ? route.params.id[0]
       : route.params.id;
   });
-  const messages = computed(() => messagesStore.messages);
+  const messages = computed(() => messagesStore.getMessages);
+
+  const loadMessages = () => {
+    messagesStore.loadMessages(roomId.value);
+  };
 
   const init = () => {
-    const userId = localStorage.getItem('userId');
-
     if (userId) {
       roomStore.createRoom(roomId.value);
     } else {
       localStorage.setItem('userId', nanoid());
     }
 
-    messagesStore.loadMessages(roomId.value);
+    loadMessages();
 
     interval = setInterval(() => {
-      messagesStore.loadMessages(roomId.value);
-    }, 2000);
+      loadMessages();
+    }, 4000);
   };
 
   const send = async (messageText: string) => {
@@ -51,14 +54,15 @@ export const useRoomMessages = () => {
   };
 
   const destroy = () => {
+    messagesStore.deleteMessagesInRoom(roomId.value);
     messagesStore.$dispose();
-    roomStore.destroyRoom(roomId.value);
     clearInterval(interval);
   };
 
   return {
     init,
     send,
+    loadMessages,
     destroy,
     messages,
   };

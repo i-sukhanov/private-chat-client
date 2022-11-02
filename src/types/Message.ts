@@ -1,7 +1,7 @@
 export type Message = {
   id: string | number;
   text: string;
-  fromMe?: boolean;
+  author?: boolean;
   timeSent: number;
   userId?: string;
   roomId?: string;

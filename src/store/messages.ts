@@ -33,5 +33,23 @@ export const useMessages = defineStore('messages', {
         body: JSON.stringify(message),
       });
     },
+    async deleteMessagesInRoom(roomId: string) {
+      const api = useApi();
+
+      await api.request({
+        path: `messages/${roomId}`,
+        method: 'DELETE',
+      });
+    },
+  },
+  getters: {
+    getMessages(): Message[] {
+      const userId = localStorage.getItem('userId');
+
+      return this.messages.map((msg) => ({
+        ...msg,
+        author: userId == msg.userId,
+      }));
+    },
   },
 });
