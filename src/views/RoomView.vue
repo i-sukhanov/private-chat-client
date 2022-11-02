@@ -93,6 +93,7 @@ init();
       border-radius: 6px 6px 0px 6px;
       background-color: rgba(123, 97, 255, 0.1);
       border-color: transparent;
+      background-color: var(--bg-color);
     }
   }
 

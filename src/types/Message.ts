@@ -4,4 +4,5 @@ export type Message = {
   fromMe?: boolean;
   timeSent: number;
   userId?: string;
+  roomId?: string;
 };

@@ -44,6 +44,7 @@ export const useRoomMessages = () => {
       text: messageText.trim(),
       timeSent: Date.now(),
       userId,
+      roomId: roomId.value,
     };
 
     await messagesStore.sendMessage(message);
