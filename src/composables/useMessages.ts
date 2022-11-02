@@ -28,6 +28,8 @@ export const useRoomMessages = () => {
       localStorage.setItem('userId', nanoid());
     }
 
+    messagesStore.loadMessages(roomId.value);
+
     interval = setInterval(() => {
       messagesStore.loadMessages(roomId.value);
     }, 2000);

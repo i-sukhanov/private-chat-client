@@ -31,7 +31,7 @@ init();
   display: flex;
   position: relative;
   border: 1px solid var(--border-color);
-  background-color: var(--switcher-bg);
+  background-color: var(--lighter-bg);
   border-radius: var(--space-lg);
   overflow: hidden;
 

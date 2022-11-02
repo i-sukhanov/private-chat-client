@@ -23,13 +23,14 @@
         v-model:value="newMessage"
         placeholder="Enter your message"
         :rows="4"
+        class="chat--textarea"
       />
       <div class="chat--buttons">
         <a-button class="chat--send" type="primary" @click="sendMessage"
           >Send</a-button
         >
         <router-link to="/">
-          <a-button>Leave room</a-button>
+          <a-button class="chat--leave">Leave room</a-button>
         </router-link>
       </div>
     </div>
@@ -81,17 +82,24 @@ init();
 
   &--message {
     width: 95%;
-    padding: 8px 8px 8px 8px;
+    padding: 8px;
     margin: 4px 0;
     border-radius: 6px 6px 6px 0;
-    border: 1px solid #e3e3e3;
+    border: 1px solid var(--border-color);
     font-size: 16px;
+    background-color: var(--lighter-bg);
 
     &-right {
       border-radius: 6px 6px 0px 6px;
       background-color: rgba(123, 97, 255, 0.1);
       border-color: transparent;
     }
+  }
+
+  &--textarea {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
   }
 
   &--buttons {
@@ -115,6 +123,12 @@ init();
     font-size: 16px;
     background-color: var(--action-blue);
     border: 1px solid var(--action-blue);
+  }
+
+  &--leave {
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
   }
 }
 </style>
