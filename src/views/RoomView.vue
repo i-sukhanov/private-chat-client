@@ -29,9 +29,14 @@
         <a-button class="chat--send" type="primary" @click="sendMessage"
           >Send</a-button
         >
-        <router-link to="/">
-          <a-button class="chat--leave">Leave room</a-button>
-        </router-link>
+        <a-tooltip>
+          <template #title
+            >If you leave the room, all messages in this room will be deleted
+          </template>
+          <router-link to="/">
+            <a-button class="chat--leave">Leave room</a-button>
+          </router-link>
+        </a-tooltip>
       </div>
     </form>
   </div>
