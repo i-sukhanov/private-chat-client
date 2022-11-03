@@ -2,12 +2,10 @@ import { Message } from '@/types/Message';
 import { nanoid } from 'nanoid';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { useRoom } from '@/store/room';
 import { useMessages } from '@/store/messages';
 
 export const useRoomMessages = () => {
   const route = useRoute();
-  const roomStore = useRoom();
   const messagesStore = useMessages();
 
   const userId = localStorage.getItem('userId');
@@ -25,9 +23,7 @@ export const useRoomMessages = () => {
   };
 
   const init = () => {
-    if (userId) {
-      roomStore.createRoom(roomId.value);
-    } else {
+    if (!userId) {
       localStorage.setItem('userId', nanoid());
     }
 

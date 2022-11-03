@@ -7,7 +7,7 @@
         both of you leave a room.
       </span>
     </div>
-    <a-button type="primary" class="welcome--enter-room" @click="createRoom">
+    <a-button type="primary" class="welcome--enter-room" @click="enterRoom">
       Enter room
     </a-button>
   </div>
@@ -16,14 +16,11 @@
 <script lang="ts" setup>
 import { nanoid } from 'nanoid';
 import { useRouter } from 'vue-router';
-import { useRoom } from '@/store/room';
 
 const router = useRouter();
 const roomId = nanoid();
-const roomStore = useRoom();
 
-const createRoom = () => {
-  roomStore.createRoom(roomId);
+const enterRoom = () => {
   router.push(`/room/${roomId}`);
 };
 </script>
