@@ -10,3 +10,16 @@
   --space-lg: 32px;
   --space-xl: 36px;
 }
+
+.ant-notification-notice {
+  background-color: var(--lighter-bg);
+}
+
+.ant-notification-notice-message,
+.ant-notification-notice-description {
+  color: var(--text-color);
+}
+
+.ant-notification-close-icon {
+  color: var(--text-color);
+}

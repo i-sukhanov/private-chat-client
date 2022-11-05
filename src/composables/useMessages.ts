@@ -3,10 +3,12 @@ import { nanoid } from 'nanoid';
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMessages } from '@/store/messages';
+import { useNotifications } from './useNotifications';
 
 export const useRoomMessages = () => {
   const route = useRoute();
   const messagesStore = useMessages();
+  const { showSuccessMessage } = useNotifications();
 
   const userId = localStorage.getItem('userId');
   let interval: ReturnType<typeof setInterval>;
@@ -23,6 +25,10 @@ export const useRoomMessages = () => {
   };
 
   const init = () => {
+    showSuccessMessage({
+      message: 'The room is created',
+      description: 'You can start chatting',
+    });
     if (!userId) {
       localStorage.setItem('userId', nanoid());
     }
