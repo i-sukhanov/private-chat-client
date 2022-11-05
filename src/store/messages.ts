@@ -50,10 +50,16 @@ export const useMessages = defineStore('messages', {
     },
     async deleteMessagesInRoom(roomId: string) {
       const api = useApi();
+      const { showSuccessMessage } = useNotifications();
 
       await api.request({
         path: `messages/${roomId}`,
         method: 'DELETE',
+      });
+
+      showSuccessMessage({
+        message: 'You left the room',
+        description: 'All messages were erased',
       });
     },
   },
