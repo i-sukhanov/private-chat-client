@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import type { Message } from '../types/Message';
 import { useApi } from './api';
+import { useNotifications } from '@composables/useNotifications';
 
 type State = {
   messages: Message[];
@@ -17,21 +18,35 @@ export const useMessages = defineStore('messages', {
   actions: {
     async loadMessages(roomId: string) {
       const api = useApi();
+      const { showErrorMessage } = useNotifications();
 
-      const messages: Message[] = await api.request({
-        path: `messages/${roomId}`,
-      });
+      try {
+        const messages: Message[] = await api.request({
+          path: `messages/${roomId}`,
+        });
 
-      this.messages = messages;
+        this.messages = messages;
+      } catch {
+        showErrorMessage({
+          description: 'We can not retrive the messages now',
+        });
+      }
     },
     async sendMessage(message: Message) {
       const api = useApi();
+      const { showErrorMessage } = useNotifications();
 
-      await api.request({
-        path: 'messages',
-        method: 'POST',
-        body: JSON.stringify(message),
-      });
+      try {
+        await api.request({
+          path: 'messages',
+          method: 'POST',
+          body: JSON.stringify(message),
+        });
+      } catch {
+        showErrorMessage({
+          description: `We can't send a message now`,
+        });
+      }
     },
     async deleteMessagesInRoom(roomId: string) {
       const api = useApi();
