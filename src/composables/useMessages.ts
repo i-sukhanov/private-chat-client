@@ -11,7 +11,6 @@ export const useRoomMessages = () => {
   const { showSuccessMessage } = useNotifications();
 
   const userId = localStorage.getItem('userId');
-  let interval: ReturnType<typeof setInterval>;
 
   const roomId = computed(() => {
     return Array.isArray(route.params.id)
@@ -25,22 +24,19 @@ export const useRoomMessages = () => {
   };
 
   const init = () => {
-    showSuccessMessage({
-      message: 'The room is created',
-      description: 'You can start chatting',
-    });
     if (!userId) {
       localStorage.setItem('userId', nanoid());
+
+      showSuccessMessage({
+        message: 'The room is created',
+        description: 'You can start chatting',
+      });
     }
-
+    messagesStore.subscribeToMessages(roomId.value);
     loadMessages();
-
-    interval = setInterval(() => {
-      loadMessages();
-    }, 4000);
   };
 
-  const send = async (messageText: string) => {
+  const send = (messageText: string) => {
     if (messageText.length === 0) return;
     const userId = localStorage.getItem('userId')!;
 
@@ -52,19 +48,18 @@ export const useRoomMessages = () => {
       roomId: roomId.value,
     };
 
-    await messagesStore.sendMessage(message);
+    messagesStore.sendMessage(message);
   };
 
   const destroy = () => {
     messagesStore.deleteMessagesInRoom(roomId.value);
     messagesStore.$dispose();
-    clearInterval(interval);
+    localStorage.removeItem('userId');
   };
 
   return {
     init,
     send,
-    loadMessages,
     destroy,
     messages,
   };

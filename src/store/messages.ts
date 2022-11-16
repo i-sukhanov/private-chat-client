@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import type { Message } from '../types/Message';
 import { useApi } from './api';
 import { useNotifications } from '@composables/useNotifications';
+import { useSocketIo, Actions } from '@composables/useSocketIo';
 
 type State = {
   messages: Message[];
@@ -16,37 +17,38 @@ const state = (): State => {
 export const useMessages = defineStore('messages', {
   state,
   actions: {
-    async loadMessages(roomId: string) {
-      const api = useApi();
+    loadMessages(roomId: string) {
+      const { socket } = useSocketIo();
       const { showErrorMessage } = useNotifications();
 
       try {
-        const messages: Message[] = await api.request({
-          path: `messages/${roomId}`,
+        socket.emit(Actions.GET, { roomId }, (response: Message[]) => {
+          this.messages = response;
         });
-
-        this.messages = messages;
       } catch {
         showErrorMessage({
           description: 'We can not retrive the messages now',
         });
       }
     },
-    async sendMessage(message: Message) {
-      const api = useApi();
+    sendMessage(message: Message) {
+      const { socket } = useSocketIo();
       const { showErrorMessage } = useNotifications();
 
       try {
-        await api.request({
-          path: 'messages',
-          method: 'POST',
-          body: JSON.stringify(message),
-        });
+        socket.emit(Actions.CREATE, message);
       } catch {
         showErrorMessage({
           description: `We can't send a message now`,
         });
       }
+    },
+    subscribeToMessages(roomId: string) {
+      const { socket } = useSocketIo();
+
+      socket.on(`room-${roomId}`, (message: Message) => {
+        this.messages.push(message);
+      });
     },
     async deleteMessagesInRoom(roomId: string) {
       const api = useApi();

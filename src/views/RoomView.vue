@@ -1,21 +1,23 @@
 <template>
   <div class="chat">
-    <div class="chat--messages">
-      <div
-        :class="{
-          'chat--message_container': true,
-          'chat--message_container-right': message.author,
-        }"
-        v-for="message in messages"
-        :key="message.id"
-      >
+    <div class="chat--messages" ref="messagesWrapper">
+      <div ref="messagesContainer">
         <div
           :class="{
-            'chat--message': true,
-            'chat--message-right': message.author,
+            'chat--message_container': true,
+            'chat--message_container-right': message.author,
           }"
-          v-html="message.text"
-        />
+          v-for="message in messages"
+          :key="message.id"
+        >
+          <div
+            :class="{
+              'chat--message': true,
+              'chat--message-right': message.author,
+            }"
+            v-html="message.text"
+          />
+        </div>
       </div>
     </div>
     <form class="chat--bottom" @submit.prevent="sendMessage">
@@ -43,21 +45,40 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, watch, nextTick } from 'vue';
 import { useRoomMessages } from '@/composables/useMessages';
 import { onBeforeRouteLeave } from 'vue-router';
 
 const newMessage = ref('');
-const { init, send, messages, loadMessages, destroy } = useRoomMessages();
+const messagesContainer = ref<HTMLElement>();
+const messagesWrapper = ref<HTMLElement>();
+const { init, send, messages, destroy } = useRoomMessages();
 
 const sendMessage = async () => {
-  await send(newMessage.value);
-  loadMessages();
+  send(newMessage.value);
 
   newMessage.value = '';
 };
 
 onBeforeRouteLeave(destroy);
+
+watch(
+  messages,
+  async (value) => {
+    await nextTick();
+
+    if (value.length) {
+      messagesWrapper.value?.scroll({
+        top: messagesContainer.value?.offsetHeight,
+        behavior: 'smooth',
+      });
+    }
+  },
+  {
+    immediate: true,
+    deep: true,
+  }
+);
 
 init();
 </script>
@@ -93,13 +114,13 @@ init();
     border-radius: 6px 6px 6px 0;
     border: 1px solid var(--border-color);
     font-size: 16px;
-    background-color: var(--lighter-bg);
+    background-color: var(--bg-color);
 
     &-right {
       border-radius: 6px 6px 0px 6px;
       background-color: rgba(123, 97, 255, 0.1);
       border: 1px solid var(--border-color);
-      background-color: var(--bg-color);
+      background-color: var(--lighter-bg);
     }
   }
 
