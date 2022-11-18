@@ -1,8 +1,13 @@
 [color-scheme=dark] {
-  --action-blue: #446077;
-  --text-color: #ececec;
+  --lighter-bg: #253442;
   --bg-color: #15202b;
+
+  --action-blue: #446077;
+
+  --text-color: #ececec;
   --input-color: #15202b;
   --border-color: #909090;
-  --lighter-bg: #253442;
+
+  --default-message-bg: #253442;
+  --light-message-bg: #446077;
 }

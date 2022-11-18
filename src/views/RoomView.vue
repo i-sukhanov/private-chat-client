@@ -10,13 +10,7 @@
           v-for="message in messages"
           :key="message.id"
         >
-          <div
-            :class="{
-              'chat--message': true,
-              'chat--message-right': message.author,
-            }"
-            v-html="message.text"
-          />
+          <message-item :message="message" />
         </div>
       </div>
     </div>
@@ -45,6 +39,7 @@
 </template>
 
 <script lang="ts" setup>
+import MessageItem from '@/components/MessageItem.vue';
 import { ref, watch, nextTick } from 'vue';
 import { useRoomMessages } from '@/composables/useMessages';
 import { onBeforeRouteLeave } from 'vue-router';
@@ -104,23 +99,6 @@ init();
 
     &-right {
       justify-content: flex-end;
-    }
-  }
-
-  &--message {
-    width: 95%;
-    padding: 8px;
-    margin: 4px 0;
-    border-radius: 6px 6px 6px 0;
-    border: 1px solid var(--border-color);
-    font-size: 16px;
-    background-color: var(--bg-color);
-
-    &-right {
-      border-radius: 6px 6px 0px 6px;
-      background-color: rgba(123, 97, 255, 0.1);
-      border: 1px solid var(--border-color);
-      background-color: var(--lighter-bg);
     }
   }
 

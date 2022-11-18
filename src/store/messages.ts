@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import type { Message } from '../types/Message';
-import { useApi } from './api';
 import { useNotifications } from '@composables/useNotifications';
 import { useSocketIo, Actions } from '@composables/useSocketIo';
 
@@ -43,21 +42,21 @@ export const useMessages = defineStore('messages', {
         });
       }
     },
-    subscribeToMessages(roomId: string) {
+    subscribeToRoom(roomId: string) {
       const { socket } = useSocketIo();
 
-      socket.on(`room-${roomId}`, (message: Message) => {
+      socket.on(`message@${roomId}`, (message: Message) => {
         this.messages.push(message);
+      });
+      socket.on(`erase@${roomId}`, () => {
+        this.messages = [];
       });
     },
     async deleteMessagesInRoom(roomId: string) {
-      const api = useApi();
+      const { socket } = useSocketIo();
       const { showSuccessMessage } = useNotifications();
 
-      await api.request({
-        path: `messages/${roomId}`,
-        method: 'DELETE',
-      });
+      socket.emit(Actions.DELETE, roomId);
 
       showSuccessMessage({
         message: 'You left the room',

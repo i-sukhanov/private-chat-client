@@ -32,7 +32,7 @@ export const useRoomMessages = () => {
         description: 'You can start chatting',
       });
     }
-    messagesStore.subscribeToMessages(roomId.value);
+    messagesStore.subscribeToRoom(roomId.value);
     loadMessages();
   };
 

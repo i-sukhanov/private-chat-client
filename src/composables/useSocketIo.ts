@@ -3,6 +3,7 @@ import { io } from 'socket.io-client';
 export enum Actions {
   CREATE = 'createMessage',
   GET = 'getAllMessages',
+  DELETE = 'deleteAllMessages',
 }
 
 export const useSocketIo = () => {
