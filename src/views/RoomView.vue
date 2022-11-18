@@ -126,7 +126,7 @@ init();
   }
 
   &--send {
-    font-size: 16px;
+    font-size: var(--fs-sm);
     background-color: var(--action-blue);
     border: 1px solid var(--action-blue);
   }
