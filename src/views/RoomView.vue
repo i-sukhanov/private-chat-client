@@ -62,12 +62,12 @@ watch(
   async (value) => {
     await nextTick();
 
-    if (value.length) {
-      messagesWrapper.value?.scroll({
-        top: messagesContainer.value?.offsetHeight,
-        behavior: 'smooth',
-      });
-    }
+    // if (value.length) {
+    //   messagesWrapper.value?.scroll({
+    //     top: messagesContainer.value?.offsetHeight,
+    //     behavior: 'smooth',
+    //   });
+    // }
   },
   {
     immediate: true,

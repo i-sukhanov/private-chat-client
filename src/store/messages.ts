@@ -51,6 +51,11 @@ export const useMessages = defineStore('messages', {
       socket.on(`erase@${roomId}`, () => {
         this.messages = [];
       });
+      socket.on(`read@${roomId}`, (message: Message) => {
+        this.messages = this.messages.map<Message>((item: Message) =>
+          message.id === item.id ? message : item
+        );
+      });
     },
     async deleteMessagesInRoom(roomId: string) {
       const { socket } = useSocketIo();
@@ -62,6 +67,17 @@ export const useMessages = defineStore('messages', {
         message: 'You left the room',
         description: 'All messages were erased',
       });
+    },
+    async readMessage({
+      messageId,
+      roomId,
+    }: {
+      messageId: Message['id'];
+      roomId: string;
+    }) {
+      const { socket } = useSocketIo();
+
+      socket.emit(Actions.READ, { messageId, roomId });
     },
   },
   getters: {

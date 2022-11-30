@@ -1,6 +1,6 @@
 import { Message } from '@/types/Message';
 import { nanoid } from 'nanoid';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMessages } from '@/store/messages';
 import { useNotifications } from './useNotifications';
@@ -10,7 +10,7 @@ export const useRoomMessages = () => {
   const messagesStore = useMessages();
   const { showSuccessMessage } = useNotifications();
 
-  const userId = localStorage.getItem('userId');
+  const userId = ref(localStorage.getItem('userId'));
 
   const roomId = computed(() => {
     return Array.isArray(route.params.id)
@@ -24,7 +24,7 @@ export const useRoomMessages = () => {
   };
 
   const init = () => {
-    if (!userId) {
+    if (!userId.value) {
       localStorage.setItem('userId', nanoid());
 
       showSuccessMessage({
@@ -57,10 +57,16 @@ export const useRoomMessages = () => {
     localStorage.removeItem('userId');
   };
 
+  const read = (messageId: Message['id']) => {
+    messagesStore.readMessage({ messageId, roomId: roomId.value });
+  };
+
   return {
     init,
     send,
+    read,
     destroy,
+    userId,
     messages,
   };
 };

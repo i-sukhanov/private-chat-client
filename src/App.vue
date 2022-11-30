@@ -31,6 +31,7 @@ body {
 }
 
 .container {
+  width: calc(100% - 32px);
   max-width: 760px;
   margin: 0 auto;
   display: flex;

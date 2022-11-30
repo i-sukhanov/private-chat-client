@@ -4,6 +4,7 @@ export enum Actions {
   CREATE = 'createMessage',
   GET = 'getAllMessages',
   DELETE = 'deleteAllMessages',
+  READ = 'readMessage',
 }
 
 export const useSocketIo = () => {

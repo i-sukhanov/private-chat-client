@@ -3,8 +3,8 @@
     <div>
       <h2 class="welcome--title">Welcome to Secret Chat</h2>
       <span>
-        Create a room and invite your friend. All messages will be deleted after
-        both of you leave a room.
+        Enter a room and invite your friend. All messages will be deleted after
+        one of you leave a room.
       </span>
     </div>
     <a-button type="primary" class="welcome--enter-room" @click="enterRoom">

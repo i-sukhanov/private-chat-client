@@ -6,6 +6,25 @@ import App from './App.vue';
 import router from './router';
 import './scss/main.scss';
 
+const app = createApp(App);
+
+app.directive('observe', (el: HTMLElement, binding) => {
+  const options = {
+    rootMargin: '100px',
+    threshold: 0.25,
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        binding.value();
+      }
+    }, options);
+  });
+
+  observer.observe(el);
+});
+
 export const pinia = createPinia();
 
-createApp(App).use(router).use(Antd).use(pinia).mount('#app');
+app.use(router).use(Antd).use(pinia).mount('#app');
